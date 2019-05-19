@@ -34,7 +34,6 @@ vet:
 $(GOPATH)/bin/deepcopy-gen:
 	GO111MODULE=on $(GO) get k8s.io/code-generator/cmd/deepcopy-gen
 
-
 build: fmt vet
 	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o bin/kustomize kustomize.go
 
@@ -42,10 +41,10 @@ install: build
 	@echo copying bin/kustomize to /usr/local/bin
 	@cp bin/kustomize /usr/local/bin
 
-build-plugin:
+build-plugin: fmt vet
 	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o $(PLUGIN_DIR)/$(KIND).so \
 		-buildmode plugin -tags=plugin $(PLUGIN_DIR)/plugin.go
 	cp ./plugin/app.k8s.io/v1beta1/Application.so /Users/kdkasrav/go/src/github.com/kubeflow/manifests/plugins/kustomize/plugin/app.k8s.io/v1beta1/Application.so
 
-build-main:
-	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o $(PLUGIN_DIR)/test_app $(PLUGIN_DIR)/main.go
+build-main: fmt vet
+	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o $(PLUGIN_DIR)/bin/Application $(PLUGIN_DIR)/main.go

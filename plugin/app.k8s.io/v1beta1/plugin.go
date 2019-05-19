@@ -25,10 +25,13 @@ func (p *plugin) Config(ldr ifc.Loader, rf *resmap.Factory, buf []byte) error {
 	p.GeneratorOptions = types.GeneratorOptions{}
 	p.ldr = ldr
 	p.rf = rf
-	return yaml.Unmarshal(buf, p)
+	return yaml.Unmarshal(buf, p.Application)
 }
 
 func (p *plugin) Generate() (resmap.ResMap, error) {
-
-	return nil, nil
+	buf, err := yaml.Marshal(p.Application)
+	if err != nil {
+		return nil, err
+	}
+	return p.rf.NewResMapFromBytes(buf)
 }
