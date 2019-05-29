@@ -4,7 +4,7 @@
 package main
 
 import (
-	application "sigs.k8s.io/application/pkg/apis/app/v1beta1"
+	"apps.kubeflow.org/v1alpha1"
 	"sigs.k8s.io/kustomize/pkg/ifc"
 	"sigs.k8s.io/kustomize/pkg/resmap"
 	"sigs.k8s.io/kustomize/pkg/types"
@@ -14,14 +14,14 @@ import (
 type plugin struct {
 	ldr         ifc.Loader
 	rf          *resmap.Factory
-	Application *application.Application
+	kfdef       *v1alpha1.KfDef
 	types.GeneratorOptions
 }
 
 var KustomizePlugin plugin
 
 func (p *plugin) Config(ldr ifc.Loader, rf *resmap.Factory, buf []byte) error {
-	p.Application = &application.Application{}
+	p.kfdef = &v1alpha1.KfDef{}
 	p.GeneratorOptions = types.GeneratorOptions{}
 	p.ldr = ldr
 	p.rf = rf
@@ -34,6 +34,31 @@ func (p *plugin) Generate() (resmap.ResMap, error) {
 		return nil, err
 	}
 	return p.rf.NewResMapFromBytes(buf)
+}
+
+// generator functionality
+func (p *plugin) genTargetStart() {
+
+}
+
+func (p *plugin) genTargetMiddle() {
+
+}
+
+func (p *plugin) genTargetEnd() {
+
+}
+
+func (p *plugin)genTarget() {
+
+}
+
+func (p *plugin) genTargetBase() {
+
+}
+
+func (p *plugin) genTargetKustomization() {
+	
 }
 
 func (p *plugin) Transform(m resmap.ResMap) error {
