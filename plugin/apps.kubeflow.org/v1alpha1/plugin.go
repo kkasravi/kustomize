@@ -58,7 +58,7 @@ func (p *plugin) genTargetBase() {
 }
 
 func (p *plugin) genTargetKustomization() {
-	
+
 }
 
 func (p *plugin) Transform(m resmap.ResMap) error {
