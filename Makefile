@@ -16,8 +16,6 @@ GCLOUD_PROJECT ?= kubeflow-images-public
 GOLANG_VERSION ?= 1.12
 GOPATH ?= $(HOME)/go
 VERBOSE ?= 
-PLUGIN_DIR ?= plugin/app.k8s.io/v1beta1
-KIND ?= Application
 export GO111MODULE = on
 export GO = go
 
@@ -41,10 +39,10 @@ install: build
 	@echo copying bin/kustomize to /usr/local/bin
 	@cp bin/kustomize /usr/local/bin
 
-build-plugin: fmt vet
-	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o $(PLUGIN_DIR)/$(KIND).so \
-		-buildmode plugin -tags=plugin $(PLUGIN_DIR)/plugin.go
+build-plugin-application: fmt vet
+	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o plugin/app.k8s.io/v1beta1/Application.so \
+		-buildmode plugin -tags=plugin plugin/app.k8s.io/v1beta1/plugin.go
 	cp ./plugin/app.k8s.io/v1beta1/Application.so /Users/kdkasrav/go/src/github.com/kubeflow/manifests/plugins/kustomize/plugin/app.k8s.io/v1beta1/Application.so
 
-build-main: fmt vet
-	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o $(PLUGIN_DIR)/bin/Application $(PLUGIN_DIR)/main.go
+build-main-application: fmt vet
+	GO111MODULE=on $(GO) build -i -gcflags 'all=-N -l' -o plugin/app.k8s.io/v1beta1/bin/Application plugin/app.k8s.io/v1beta1/main.go
